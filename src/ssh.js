@@ -33,7 +33,7 @@ const putFiles = async (transferInfoList) => {
     await ssh.putFiles(transferInfoList)
 }
 
-exports.default = async function (config){
+exports.default = async (config) => {
     const {
         host,
         port,

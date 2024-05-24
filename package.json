@@ -17,7 +17,7 @@
     "index.js",
     "package.json"
   ],
-  "keywords": [],
+  "keywords": ["deploy"],
   "author": "",
   "license": "ISC",
   "bugs": {
