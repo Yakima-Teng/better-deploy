@@ -10,6 +10,13 @@
     "type": "git",
     "url": "git+https://github.com/Yakima-Teng/better-deploy.git"
   },
+  "files": [
+    "src",
+    "LICENSE",
+    "README.md",
+    "index.js",
+    "package.json"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
