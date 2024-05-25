@@ -24,6 +24,7 @@ npm install better-deploy
 
 ```typescript
 import path from 'path'
+import url from 'url'
 import { ssh } from 'better-deploy'
 
 await ssh.connect({
@@ -35,7 +36,7 @@ await ssh.connect({
 
 const cwd = '/working-directory'
 await ssh.putDirectory({
-    fromPath: path.resolve(import.meta.dirname, '../'),
+    fromPath: path.resolve(path.dirname(url.fileURLToPath(import.meta.url)), '../'),
     toPath: cwd,
 })
 
@@ -54,6 +55,7 @@ await ssh.execCommand({
 
 ```typescript
 import path from 'path'
+import url from 'url'
 import { qiniu } from 'better-deploy'
 
 qiniu.initConfig({
@@ -71,7 +73,7 @@ qiniu.initConfig({
 await qiniu.deleteRemotePathList(['path-to-delete/'])
 
 await qiniu.uploadDir({
-  fromPath: path.resolve(import.meta.dirname, '../dist'),
+  fromPath: path.resolve(path.dirname(url.fileURLToPath(import.meta.url)), '../dist'),
   ignore: ['node_modules'],
   // refresh: true-自动刷新CDN
   refresh: true
