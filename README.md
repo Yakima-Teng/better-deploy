@@ -1,12 +1,16 @@
 # better-deploy
 
-[![npm package][npm-img]][npm-url]
-[![Build Status][build-img]][build-url]
-[![Downloads][downloads-img]][downloads-url]
-[![Issues][issues-img]][issues-url]
-[![Code Coverage][codecov-img]][codecov-url]
-[![Commitizen Friendly][commitizen-img]][commitizen-url]
-[![Semantic Release][semantic-release-img]][semantic-release-url]
+<p align="center" style="display: flex;align-items: center;justify-content: center;gap:8px;">
+  <a href="https://npmcharts.com/compare/better-deploy?minimal=true">
+    <img src="https://img.shields.io/npm/dm/better-deploy.svg" alt="Downloads">
+  </a>
+  <a href="https://www.npmjs.com/package/better-deploy">
+    <img src="https://img.shields.io/npm/v/better-deploy.svg" alt="Version">
+  </a>
+  <a href="https://www.npmjs.com/package/better-deploy">
+    <img src="https://img.shields.io/npm/l/better-deploy.svg" alt="License">
+  </a>
+</p>
 
 > Deploy your project through SSH, qiniu or ali-oss, using your local machine.
 
