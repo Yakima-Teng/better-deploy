@@ -16,47 +16,64 @@
 npm install better-deploy
 ```
 
-## Usage
+## Usage - SSH
 
-```ts
-import { myPackage } from 'better-deploy';
+```typescript
+import path from 'path'
+import { ssh } from 'better-deploy'
 
-myPackage('hello');
-//=> 'hello from my package'
+await ssh.connect({
+    host: '11.22.33.44',
+    port: 99,
+    username: 'username',
+    password: 'password'
+})
+
+const cwd = '/working-directory'
+await ssh.putDirectory({
+    fromPath: path.resolve(import.meta.dirname, '../'),
+    toPath: cwd,
+})
+
+await ssh.execCommand({
+    cwd,
+    command: 'pwd && ls'
+})
+
+await ssh.execCommand({
+    cwd,
+    command: 'node --version && nvm --version'
+})
 ```
 
-## API
+## Usage - Qiniu
 
-### myPackage(input, options?)
+```typescript
+import path from 'path'
+import { qiniu } from 'better-deploy'
 
-#### input
+qiniu.initConfig({
+  accessKey: 'accessKey',
+  secretKey: 'secretKey',
+  bucketName: 'bucketName',
+  zoneName: 'zoneName',
+  // CDN加速域名，以http(s)开头
+  publicBucketDomain: 'https://www.example.com',
+  // 最开头不要带/，末尾要带/，如果是根路径的话就传 `/`
+  uploadRemotePrefix: 'pathPrefix/',
+})
 
-Type: `string`
+// 如果上传前要先清空远端文件的话
+await qiniu.deleteRemotePathList(['path-to-delete/'])
 
-Lorem ipsum.
+await qiniu.uploadDir({
+  fromPath: path.resolve(import.meta.dirname, '../dist'),
+  ignore: ['node_modules'],
+  // refresh: true-自动刷新CDN
+  refresh: true
+})
+```
 
-#### options
+## License
 
-Type: `object`
-
-##### postfix
-
-Type: `string`
-Default: `rainbows`
-
-Lorem ipsum.
-
-[build-img]:https://github.com/ryansonshine/better-deploy/actions/workflows/release.yml/badge.svg
-[build-url]:https://github.com/ryansonshine/better-deploy/actions/workflows/release.yml
-[downloads-img]:https://img.shields.io/npm/dt/better-deploy
-[downloads-url]:https://www.npmtrends.com/better-deploy
-[npm-img]:https://img.shields.io/npm/v/better-deploy
-[npm-url]:https://www.npmjs.com/package/better-deploy
-[issues-img]:https://img.shields.io/github/issues/ryansonshine/better-deploy
-[issues-url]:https://github.com/ryansonshine/better-deploy/issues
-[codecov-img]:https://codecov.io/gh/ryansonshine/better-deploy/branch/main/graph/badge.svg
-[codecov-url]:https://codecov.io/gh/ryansonshine/better-deploy
-[semantic-release-img]:https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
-[semantic-release-url]:https://github.com/semantic-release/semantic-release
-[commitizen-img]:https://img.shields.io/badge/commitizen-friendly-brightgreen.svg
-[commitizen-url]:http://commitizen.github.io/cz-cli/
+[MIT License](./LICENSE)
