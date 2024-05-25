@@ -9,10 +9,7 @@ import Config = conf.Config;
 import Mac = auth.digest.Mac;
 import BucketManager = rs.BucketManager;
 import PutPolicyOptions = rs.PutPolicyOptions;
-import {
-  BatchOpsResult,
-  ListedObjectEntry,
-} from 'qiniu/StorageResponseInterface';
+import { ListedObjectEntry } from 'qiniu/StorageResponseInterface';
 
 interface IOptions {
   accessKey: string;
@@ -21,7 +18,7 @@ interface IOptions {
   zoneName: keyof typeof qiniu.zone;
   // CDN加速域名，以http开头
   publicBucketDomain: string;
-  // 最开头不要带/，末尾要带/，如果是根路径的话就传空字符串
+  // 最开头不要带/，末尾要带/，如果是根路径的话就传`/`，其他的话就类似`prefix/`
   uploadRemotePrefix: string;
 }
 

@@ -4,26 +4,31 @@ import {
   SSHGetPutDirectoryOptions,
   SSHPutFilesOptions,
 } from 'node-ssh';
+import chalk from 'chalk';
 
 const ssh = new NodeSSH();
 
 interface IPayloadPutDir {
   fromPath: string;
   toPath: string;
-  options: SSHGetPutDirectoryOptions;
+  options?: SSHGetPutDirectoryOptions;
+}
+interface IPathPair {
+  localPath: string;
+  remotePath: string;
 }
 interface IReturnPutDir {
   success: boolean;
-  failed: string[];
-  successful: string[];
+  failItems: IPathPair[];
+  successItems: IPathPair[];
 }
 export const putDirectory = async ({
   fromPath,
   toPath,
   options,
 }: IPayloadPutDir): Promise<IReturnPutDir> => {
-  const failed: string[] = [];
-  const successful: string[] = [];
+  const failItems: IPathPair[] = [];
+  const successItems: IPathPair[] = [];
   const success = await ssh.putDirectory(fromPath, toPath, {
     recursive: true,
     concurrency: 10,
@@ -33,25 +38,44 @@ export const putDirectory = async ({
     },
     tick(localPath, remotePath, error) {
       if (error) {
-        failed.push(localPath);
+        failItems.push({ localPath, remotePath });
       } else {
-        successful.push(localPath);
+        successItems.push({ localPath, remotePath });
       }
     },
     ...(options || {}),
   });
-  // eslint-disable-next-line no-console
-  console.log(
-    `transfer was ${
-      success ? 'successful' : 'unsuccessful'
-    }: [${fromPath} => ${toPath}]`
-  );
-  console.log('failed transfers', failed.join(', '));
-  console.log('successful transfers', successful.join(', '));
+
+  if (successItems.length > 0) {
+    console.log(
+      chalk.yellow(
+        `Number of files transfer successfully (${successItems.length} in total)`
+      )
+    );
+    console.log(
+      chalk.blue(
+        successItems
+          .map((item) => `${item.localPath} => ${item.remotePath}`)
+          .join('\n')
+      )
+    );
+    console.log();
+  }
+
+  if (failItems.length > 0) {
+    console.log(
+      chalk.red(
+        `Number of files transfer successfully (${failItems.length} in total)`
+      )
+    );
+    console.log(chalk.blue(failItems.join('\n')));
+    console.log();
+  }
+
   return {
     success,
-    failed,
-    successful,
+    failItems,
+    successItems,
   };
 };
 export type TPutDirectory = typeof putDirectory;
@@ -83,20 +107,16 @@ export const execCommand = async ({
   cwd: string;
   command: string;
 }): Promise<void> => {
+  console.log(chalk.bgGreen(`[EXECUTE]: ${command}`));
   await ssh.execCommand(command, {
     cwd,
     onStdout(chunk) {
-      // eslint-disable-next-line no-console
-      console.log('onStdout');
-      // eslint-disable-next-line no-console
-      console.log(chunk.toString('utf8'));
+      console.log(
+        chalk.yellow('[STDOUT]') + chalk.blue(chunk.toString('utf8'))
+      );
     },
     onStderr(chunk) {
-      // eslint-disable-next-line no-console
-      console.log('onStderr');
-      // eslint-disable-next-line no-console
-      console.log(chunk.toString('utf8'));
-      throw new Error('failed');
+      console.log(chalk.red('[STDERR]') + chalk.blue(chunk.toString('utf8')));
     },
   });
 };
