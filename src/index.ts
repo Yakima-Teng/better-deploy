@@ -1,3 +1,4 @@
+import { NodeSSH } from 'node-ssh';
 import {
   initConfig,
   TInitConfig,
@@ -16,6 +17,7 @@ import {
   TConnect,
   execCommand,
   TExecCommand,
+  rawSSH,
 } from './ssh';
 
 export const qiniu: {
@@ -33,9 +35,11 @@ export const ssh: {
   putFiles: TPutFiles;
   connect: TConnect;
   execCommand: TExecCommand;
+  rawSSH: NodeSSH;
 } = {
   putDirectory,
   putFiles,
   connect,
   execCommand,
+  rawSSH,
 };

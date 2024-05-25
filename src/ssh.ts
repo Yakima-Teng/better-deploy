@@ -121,3 +121,5 @@ export const execCommand = async ({
   });
 };
 export type TExecCommand = typeof execCommand;
+
+export const rawSSH = ssh;
