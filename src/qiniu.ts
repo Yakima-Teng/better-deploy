@@ -62,7 +62,11 @@ const refreshCDN = async (urlsToRefresh: string[]): Promise<string[]> => {
   return new Promise((resolve, reject) => {
     cdnManager.refreshUrls(
       urlsToRefresh,
-      (err, respBody: { taskIds: Record<string, any> }, respInfo) => {
+      (
+        err,
+        respBody: { taskIds: Record<string, any> },
+        respInfo: { statusCode: number; [key: string]: any }
+      ) => {
         if (err) {
           reject(err);
           return;
