@@ -231,12 +231,19 @@ export const uploadDir = async ({
   if (refresh) {
     const keys = list.map((item) => item.key);
     const downloadUrlList = getPublicDownloadUrl(keys);
+    let refreshedUrlList: string[] = []
     if (downloadUrlList.length > 0) {
-      const refreshedUrlList = await refreshCDN(downloadUrlList);
+      const numGroups = Math.ceil(downloadUrlList.length / 100)
+      for (let i = 0; i < numGroups; i++) {
+        const tempRefreshedUrlList = await refreshCDN(downloadUrlList.slice(i * 100, (i + 1) * 100));
+        refreshedUrlList = [...refreshedUrlList, ...tempRefreshedUrlList]
+      }
+    }
+    if (refreshedUrlList.length > 0) {
       console.log(
-        chalk.yellow(
-          `Number of urls refreshed (${refreshedUrlList.length} in total):`
-        )
+          chalk.yellow(
+              `Number of urls refreshed (${refreshedUrlList.length} in total):`
+          )
       );
       console.log(chalk.blue(refreshedUrlList.join('\n')));
       console.log();
