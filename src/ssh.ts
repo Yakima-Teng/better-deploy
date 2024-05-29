@@ -104,7 +104,7 @@ export type TConnect = typeof connect;
 let defaultWorkingDirectory = path.resolve(
   path.dirname(url.fileURLToPath(import.meta.url))
 );
-export const setDefaultWorkingDirectory = (val: string) => {
+export const setDefaultWorkingDirectory = (val: string): void => {
   defaultWorkingDirectory = val;
 };
 export type TSetDefaultWorkingDirectory = typeof setDefaultWorkingDirectory;

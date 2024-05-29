@@ -16,7 +16,7 @@ interface IOptions {
   secretKey: string;
   bucketName: string;
   zoneName: keyof typeof qiniu.zone;
-  // CDN加速域名，以http开头
+  // CDN加速域名，以http(s)开头
   publicBucketDomain: string;
   // 最开头不要带/，末尾要带/，如果是根路径的话就传`/`，其他的话就类似`prefix/`
   uploadRemotePrefix: string;
@@ -86,7 +86,7 @@ const refreshCDN = async (urlsToRefresh: string[]): Promise<string[]> => {
   });
 };
 
-// 查询某个目录下的文件列表
+// 查询某个远程目录下的文件列表
 const listFiles = async (prefix: string): Promise<ListedObjectEntry[]> => {
   const res = await bucketManager.listPrefix(_opts.bucketName, {
     prefix,
@@ -167,7 +167,7 @@ interface IReturnUploadLocalFileToQiNiu {
   bucket: string;
   name: string;
 }
-const uploadLocalFileToQiNiu = async ({
+const uploadLocalFile = async ({
   localPath,
   relativePath,
   putPolicyOptions,
@@ -192,7 +192,7 @@ const uploadLocalFileToQiNiu = async ({
   return res.data as IReturnUploadLocalFileToQiNiu;
 };
 
-// 上传目录下的所有文件到七牛云
+// 上传目录下的文件到七牛云
 interface IPayloadUploadDir {
   fromPath: string;
   ignore?: string[];
@@ -211,7 +211,7 @@ export const uploadDir = async ({
       windowsPathsNoEscape: true,
       // only want the files, not the dirs
       nodir: true,
-      ignore: ['node_modules', ...(ignore || [])],
+      ignore: Array.from(new Set(['node_modules', ...(ignore || [])])),
     }
   );
   const normalizePath = (filePath: string): string => {
@@ -224,7 +224,7 @@ export const uploadDir = async ({
       relativePath: normalizePath(filePath).replace(rootPath, ''),
     };
   });
-  const list = await Promise.all(allPaths.map(uploadLocalFileToQiNiu));
+  const list = await Promise.all(allPaths.map(uploadLocalFile));
   console.log(
     chalk.yellow(
       `Number of files uploaded to remote (${list.length} in total):`

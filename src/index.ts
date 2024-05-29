@@ -9,6 +9,15 @@ import {
 } from './qiniu';
 
 import {
+  initConfig as initConfigAli,
+  TInitConfig as TInitConfigAli,
+  uploadDir as uploadDirAli,
+  TUploadDir as TUploadDirAli,
+  deleteRemotePathList as deleteRemotePathListAli,
+  TDeleteRemotePathList as TDeleteRemotePathListAli,
+} from './ali';
+
+import {
   putDirectory,
   TPutDirectory,
   putFiles,
@@ -30,6 +39,16 @@ export const qiniu: {
   initConfig,
   uploadDir,
   deleteRemotePathList,
+};
+
+export const ali: {
+  initConfig: TInitConfigAli;
+  uploadDir: TUploadDirAli;
+  deleteRemotePathList: TDeleteRemotePathListAli;
+} = {
+  initConfig: initConfigAli,
+  uploadDir: uploadDirAli,
+  deleteRemotePathList: deleteRemotePathListAli,
 };
 
 export const ssh: {
