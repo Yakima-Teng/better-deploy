@@ -197,18 +197,23 @@ interface IPayloadUploadDir {
   fromPath: string;
   ignore?: string[];
   refresh: boolean;
+  recursive?: boolean;
 }
 export const uploadDir = async ({
   fromPath,
   ignore,
-  refresh,
+  refresh = false,
+  recursive = true,
 }: IPayloadUploadDir): Promise<IReturnUploadLocalFileToQiNiu[]> => {
-  const allFiles = await glob(path.resolve(`${fromPath}/**/*`), {
-    windowsPathsNoEscape: true,
-    // only want the files, not the dirs
-    nodir: true,
-    ignore: ['node_modules', ...(ignore || [])],
-  });
+  const allFiles = await glob(
+    path.resolve(recursive ? `${fromPath}/**/*` : `${fromPath}/*`),
+    {
+      windowsPathsNoEscape: true,
+      // only want the files, not the dirs
+      nodir: true,
+      ignore: ['node_modules', ...(ignore || [])],
+    }
+  );
   const normalizePath = (filePath: string): string => {
     return filePath.replace(/\\/g, '/');
   };
