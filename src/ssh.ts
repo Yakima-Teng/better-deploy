@@ -1,4 +1,5 @@
 import path from 'path';
+import url from 'url';
 import {
   NodeSSH,
   SSHGetPutDirectoryOptions,
@@ -100,8 +101,15 @@ export const connect = async (config: IConnectConfig): Promise<void> => {
 };
 export type TConnect = typeof connect;
 
+let defaultWorkingDirectory = path.resolve(
+  path.dirname(url.fileURLToPath(import.meta.url))
+);
+export const setDefaultWorkingDirectory = (val: string) => {
+  defaultWorkingDirectory = val;
+};
+export type TSetDefaultWorkingDirectory = typeof setDefaultWorkingDirectory;
 export const execCommand = async ({
-  cwd,
+  cwd = defaultWorkingDirectory,
   command,
 }: {
   cwd: string;

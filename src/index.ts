@@ -15,6 +15,8 @@ import {
   TPutFiles,
   connect,
   TConnect,
+  setDefaultWorkingDirectory,
+  TSetDefaultWorkingDirectory,
   execCommand,
   TExecCommand,
   rawSSH,
@@ -34,12 +36,14 @@ export const ssh: {
   putDirectory: TPutDirectory;
   putFiles: TPutFiles;
   connect: TConnect;
+  setDefaultWorkingDirectory: TSetDefaultWorkingDirectory;
   execCommand: TExecCommand;
   rawSSH: NodeSSH;
 } = {
   putDirectory,
   putFiles,
   connect,
+  setDefaultWorkingDirectory,
   execCommand,
   rawSSH,
 };

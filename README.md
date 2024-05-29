@@ -39,14 +39,22 @@ await ssh.putDirectory({
     fromPath: path.resolve(path.dirname(url.fileURLToPath(import.meta.url)), '../'),
     toPath: cwd,
 })
+await ssh.putFiles([
+    { local: 'localFile1', remote: 'remoteFile1' },
+    { local: 'localFile2', remote: 'remoteFile2' },
+])
+
+// 设置默认的工作目录
+ssh.setDefaultWorkingDirectory(cwd)
 
 await ssh.execCommand({
-    cwd,
+    // 未显式设置cwd字段时，使用上面设置的默认工作目录
     command: 'pwd && ls'
 })
 
 await ssh.execCommand({
-    cwd,
+    // 显示设置cwd时，使用具体设置的cwd作为工作目录
+    cwd: cwd + '/child',
     command: 'node --version && nvm --version'
 })
 ```
@@ -75,8 +83,10 @@ await qiniu.deleteRemotePathList(['path-to-delete/'])
 await qiniu.uploadDir({
   fromPath: path.resolve(path.dirname(url.fileURLToPath(import.meta.url)), '../dist'),
   ignore: ['node_modules'],
-  // refresh: true-自动刷新CDN
-  refresh: true
+  // refresh: true-自动刷新CDN，默认为false
+  refresh: true,
+  // 是否递归子目录，默认为true
+  recursive: true
 })
 ```
 
