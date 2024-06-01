@@ -4,6 +4,8 @@ import {
   TInitConfig,
   uploadDir,
   TUploadDir,
+  refreshCDN,
+  TRefreshCDN,
   deleteRemotePathList,
   TDeleteRemotePathList,
 } from './qiniu';
@@ -34,10 +36,12 @@ import {
 export const qiniu: {
   initConfig: TInitConfig;
   uploadDir: TUploadDir;
+  refreshCDN: TRefreshCDN;
   deleteRemotePathList: TDeleteRemotePathList;
 } = {
   initConfig,
   uploadDir,
+  refreshCDN,
   deleteRemotePathList,
 };
 

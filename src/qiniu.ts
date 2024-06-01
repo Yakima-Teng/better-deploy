@@ -52,7 +52,7 @@ const getPublicDownloadUrl = (keys: string[]): string[] => {
 };
 
 // 刷新链接，单次请求链接不可以超过100个，如果超过，请分批发送请求
-const refreshCDN = async (urlsToRefresh: string[]): Promise<string[]> => {
+export const refreshCDN = async (urlsToRefresh: string[]): Promise<string[]> => {
   if (urlsToRefresh.length === 0) {
     console.log(chalk.blue('没有需要刷新的链接'));
     return [];
@@ -85,6 +85,7 @@ const refreshCDN = async (urlsToRefresh: string[]): Promise<string[]> => {
     );
   });
 };
+export type TRefreshCDN = typeof refreshCDN
 
 // 查询某个远程目录下的文件列表
 const listFiles = async (prefix: string): Promise<ListedObjectEntry[]> => {
