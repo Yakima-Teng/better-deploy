@@ -84,10 +84,16 @@ await qiniu.uploadDir({
   fromPath: path.resolve(path.dirname(url.fileURLToPath(import.meta.url)), '../dist'),
   ignore: ['node_modules'],
   // refresh: true-自动刷新CDN，默认为false
-  refresh: true,
+  refresh: false,
   // 是否递归子目录，默认为true
   recursive: true
 })
+
+// 刷新指定链接的CDN缓存
+await qiniu.refreshCDN([
+    'https://www.example.com/',
+])
+
 ```
 
 ## License
