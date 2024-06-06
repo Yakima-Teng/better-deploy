@@ -12,7 +12,7 @@
   </a>
 </p>
 
-> Deploy your project through SSH, qiniu or ali-oss, using your local machine.
+> Deploy your project through SSH, ali-oss, qiniu-oss, using your local machine.
 
 ## Install
 
@@ -59,7 +59,32 @@ await ssh.execCommand({
 })
 ```
 
-## Usage - Qiniu
+## Usage - Ali OSS
+
+```javascript
+import path from 'path'
+import { ali } from "better-deploy";
+
+ali.initConfig({
+  accessKey: 'your key',
+  secretKey: 'your key',
+  bucketName: 'bucket',
+  zoneName: 'oss-country-location',
+  publicBucketDomain: 'https://www.example.com',
+  uploadRemotePath: process.env.NODE_ENV === 'production' ? 'project/' : 'project-test/'
+})
+
+await ali.deleteRemotePathList(['path-to-delete/'])
+
+await ali.uploadDir({
+  fromPath: path.resolve(import.meta.dirname, '../dist'),
+  ignore: ['node_modules'],
+  recursive: true
+})
+
+```
+
+## Usage - Qiniu OSS
 
 ```typescript
 import path from 'path'
