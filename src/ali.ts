@@ -172,6 +172,7 @@ export const uploadLocalFile = async ({
     cdnUrl,
   };
 };
+export type TUploadLocalFile = typeof uploadLocalFile;
 
 // 上传目录下的文件到七牛云
 interface IPayloadUploadDir {

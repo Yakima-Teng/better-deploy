@@ -15,6 +15,8 @@ import {
   TInitConfig as TInitConfigAli,
   uploadDir as uploadDirAli,
   TUploadDir as TUploadDirAli,
+  uploadLocalFile as uploadLocalFileAli,
+  TUploadLocalFile as TUploadLocalFileAli,
   deleteRemotePathList as deleteRemotePathListAli,
   TDeleteRemotePathList as TDeleteRemotePathListAli,
 } from './ali';
@@ -48,10 +50,12 @@ export const qiniu: {
 export const ali: {
   initConfig: TInitConfigAli;
   uploadDir: TUploadDirAli;
+  uploadLocalFile: TUploadLocalFileAli;
   deleteRemotePathList: TDeleteRemotePathListAli;
 } = {
   initConfig: initConfigAli,
   uploadDir: uploadDirAli,
+  uploadLocalFile: uploadLocalFileAli,
   deleteRemotePathList: deleteRemotePathListAli,
 };
 
