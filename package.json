@@ -1,0 +1,72 @@
+{
+  "name": "better-deploy",
+  "version": "0.0.16",
+  "description": "Deploy your project through SSH, qiniu or ali-oss, using your local machine.",
+  "main": "./lib/index.js",
+  "exports": "./lib/index.js",
+  "files": [
+    "lib/**/*"
+  ],
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "lint": "npm run clean && npm run eslint && npm run typecheck",
+    "prebuild": "npm run lint",
+    "clean": "rimraf ./lib/",
+    "eslint": "eslint ./src/ --fix",
+    "test:watch": "jest --watch",
+    "test": "jest --coverage",
+    "typecheck": "tsc --noEmit",
+    "deploy:qiniu": "node build/deploy.mjs",
+    "deploy:github": "bash bash/github-deploy.sh",
+    "deploy:npm": "npm publish --registry=https://registry.npmjs.org",
+    "deploy": "npm run deploy:qiniu && npm run deploy:github && npm run deploy:npm",
+    "buildAndDeploy": "npm run build && npm run deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yakima-Teng/better-deploy.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Yakima Teng",
+    "email": "Yakima-Teng@users.noreply.github.com",
+    "url": "https://github.com/Yakima-Teng"
+  },
+  "engines": {
+    "node": ">=16.14.2"
+  },
+  "keywords": [
+    "deploy",
+    "ssh",
+    "qiniu",
+    "ali-oss",
+    "better-deploy"
+  ],
+  "bugs": {
+    "url": "https://github.com/Yakima-Teng/better-deploy/issues"
+  },
+  "homepage": "https://github.com/Yakima-Teng/better-deploy#readme",
+  "devDependencies": {
+    "@types/ali-oss": "6.16.11",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^12.20.11",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "eslint": "^7.25.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "jest": "^27.2.0",
+    "prettier": "^2.2.1",
+    "ts-jest": "^27.0.5",
+    "ts-node": "^10.2.1",
+    "typescript": "4.1.6"
+  },
+  "dependencies": {
+    "ali-oss": "6.20.0",
+    "chalk": "4.1.2",
+    "glob": "10.4.1",
+    "node-ssh": "13.2.0",
+    "qiniu": "7.12.0"
+  }
+}
