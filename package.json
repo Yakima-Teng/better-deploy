@@ -1,6 +1,6 @@
 {
   "name": "better-deploy",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "Deploy your project through SSH, qiniu or ali-oss, using your local machine.",
   "main": "./lib/index.js",
   "exports": "./lib/index.js",
