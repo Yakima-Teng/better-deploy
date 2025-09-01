@@ -14,6 +14,10 @@
 
 > Deploy your project through SSH, ali-oss, qiniu-oss, using your local machine.
 
+## Deprecated
+
+**This package is deprecated, please use [nsuite](https://www.npmjs.com/package/nsuite) instead.** nsuite provides many utility functions other than ssh/oss-related ones you may want to use in development with Node.js.
+
 ## Install
 
 ```bash
